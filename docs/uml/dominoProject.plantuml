@@ -1,0 +1,117 @@
+@startuml DominoProject
+
+class Domino {
+    - {static} tiles : Tile[]
+
+    + Domino()
+
+    + mixTiles() : Tile[]
+}
+class Tile {
+    - top : int
+    - dowm : int
+
+    + Tile(top, bottom)
+
+    + getTileValues() : int()
+    - getTop() : int
+    - getBotton() : int
+}
+class Player {
+    - tiles : Tile[]
+
+    + Player(tiles)
+
+    + getTiles() : Tile[]
+    + upFromStock(tile) : void
+    + downTile(tile) : bool
+    + skipTurn() : void
+}
+class Referee{
+    + {static} validMove(downTile, boardTiles)
+    + {static} validTile(downTile, boardTiles)
+}
+class Game {
+    - player1 : Player
+    - player2 : Player
+    - stock : Tile[]
+    - board : Tile[]
+    - turnPlayer1 : bool
+
+    + Game()
+    + Game(player1Tiles[])
+
+    + newGame() : bool
+    + getBoard() : string
+    + putTile(tile, position) : bool
+
+    - setPlayerTiles(player) : bool
+    - changeTurnPlayer() : bool
+}
+
+class Node{
+    - value : T
+    - fatherNode : Node
+    - heuristicValue : float
+    - childrens : Node[]
+
+    + Node(value)
+
+    + getValue() : T
+    + setValue(value) : bool
+    + getFather() : Node
+    + setFather(Node) : bool
+    + getChildren(position) : Node
+    + getChildrens() : Node[]
+    + setChildren(Node) : bool
+    + setChildrens(Node[]) : bool
+    + setHeuristicValue(float) : bool
+    + getHeuristicValue() : float
+}
+class Tree{
+    - rootNode : Node[]
+    - current : Node
+
+    + Tree()
+
+    + setRoot(Node) : bool
+    + getRoot() : Node
+    + setCurrent(Node) : bool
+    + getCurrent() : Node
+    + setChildren(father, value[])
+    + serchInOrder(value) : Node
+    + nextNodeInOrder() : Node
+}
+class GameCalculations {
+    + {static} gameCount : integer{}
+    + {static} player2Probabilities(myTiles, board, sotckProbabilities) : float
+    + {static} stockProbabibilities(myTiles, board) : float
+    + {static} heuristicFunction(myTiles, board, ) : float
+}
+class AlphaBethaProuning{
+    - alpha : float
+    - betha : float
+
+    + AlphaBethaProuning()
+
+    + startGame() : void
+    + startGame(player1Tiles) : void
+    + calculateTree() : bool
+    + setPlayer2Move() : bool
+    + startProuning() : bool
+}
+
+Game o-- Referee
+Game o-- Domino
+Game o-- Player
+Game <|-- AlphaBethaProuning
+
+Domino *-- "many" Tile
+Player *-- "many" Tile
+
+Tree *-- Node
+
+AlphaBethaProuning o-- Tree
+AlphaBethaProuning <|-- GameCalculations
+
+@enduml
